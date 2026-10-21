@@ -25,6 +25,9 @@ html {
   scroll-behavior: smooth;
   background: var(--surface);
   scroll-snap-type: y proximity;
+  /* opt-out Auto Dark Mode browser (Android/Chrome): halaman dipaksa
+     terang, jadi garis pembatas putih tidak di-invert jadi hitam */
+  color-scheme: light;
   /* clip (bukan hidden) supaya halaman tidak bisa digeser horizontal
      -> konten cover/loader tidak pernah terlihat "geser ke kanan" */
   overflow-x: hidden;
