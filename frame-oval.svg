@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="0 0 1400 1400">
+  <defs>
+    <clipPath id="window">
+      <path d="M 700 120 A 400 580 0 1 0 700.001 120 Z"/>
+    </clipPath>
+  </defs>
+  <path d="M 700 120 A 400 580 0 1 0 700.001 120 Z" fill="#000000"/>
+</svg>
