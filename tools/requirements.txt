@@ -1,0 +1,4 @@
+# Dependency untuk tools/build-greeting-frame.py
+# Install: pip install -r tools/requirements.txt
+numpy>=1.26
+Pillow>=10.0
