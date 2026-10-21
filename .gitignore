@@ -1,0 +1,13 @@
+# Python (tools/)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Catatan: tidak ada aset situs yang di-ignore, semua file di-commit.

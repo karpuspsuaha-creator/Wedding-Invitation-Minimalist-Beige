@@ -1,0 +1,140 @@
+﻿/* ============================================================
+   POLAROID GALLERY
+   Tata letak: 1 bingkai lebar (balok 2:1) di atas,
+   2 bingkai kotak (1:1) berdampingan (totalnya sama lebar
+   dengan bingkai pertama), lalu 1 bingkai lebar lagi.
+   ============================================================ */
+figure, figcaption { display: block; }
+
+#polaroid {
+  --pol-gap: 18px;
+  --pol-pad: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px var(--pol-gap);
+  width: 100%;
+  max-width: 768px;
+  margin: 30px auto 0;
+  padding: 0 10px;
+  text-align: center;
+}
+
+#polaroid figure {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 8px var(--pol-pad) 12px;
+  display: block;
+  background-color: #eee6d8;
+  -webkit-box-shadow: 4px 6px 16px -6px rgba(0, 0, 0, .6);
+  -moz-box-shadow: 4px 6px 16px -6px rgba(0, 0, 0, .6);
+  box-shadow: 4px 6px 16px -6px rgba(0, 0, 0, .6);
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+  -o-transform: rotate(-1deg);
+  -ms-transform: rotate(-1deg);
+  transform: rotate(-1deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: transform .5s ease, box-shadow .5s ease;
+}
+
+#polaroid figure:nth-child(even) {
+  -webkit-transform: rotate(1.4deg);
+  -moz-transform: rotate(1.4deg);
+  -o-transform: rotate(1.4deg);
+  -ms-transform: rotate(1.4deg);
+  transform: rotate(1.4deg);
+  -webkit-box-shadow: -4px 6px 16px -6px rgba(0, 0, 0, .6);
+  -moz-box-shadow: -4px 6px 16px -6px rgba(0, 0, 0, .6);
+  box-shadow: -4px 6px 16px -6px rgba(0, 0, 0, .6);
+}
+
+#polaroid figure:hover {
+  -webkit-transform: rotate(0deg) translateY(-4px);
+  -moz-transform: rotate(0deg) translateY(-4px);
+  -o-transform: rotate(0deg) translateY(-4px);
+  -ms-transform: rotate(0deg) translateY(-4px);
+  transform: rotate(0deg) translateY(-4px);
+  -webkit-box-shadow: 6px 16px 30px -8px rgba(0, 0, 0, .6);
+  -moz-box-shadow: 6px 16px 30px -8px rgba(0, 0, 0, .6);
+  box-shadow: 6px 16px 30px -8px rgba(0, 0, 0, .6);
+}
+
+/* bingkai lebar: membentang 2 kolom.
+   Padding kiri-kanan ditambah (2 x pad + gap/2) supaya lebar fotonya
+   persis sama dengan jumlah lebar 2 foto kotak yang berdampingan. */
+#polaroid figure.wide {
+  grid-column: 1 / -1;
+  max-width: none;
+  width: 100%;
+  justify-self: stretch;
+  padding-left: calc(var(--pol-pad) * 2 + var(--pol-gap) / 2);
+  padding-right: calc(var(--pol-pad) * 2 + var(--pol-gap) / 2);
+}
+
+#polaroid figure::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: -13px;
+  width: 96px;
+  height: 28px;
+  margin-left: -48px;
+  z-index: 1;
+  background-color: rgba(222, 220, 198, .78);
+  -webkit-transform: rotate(-4deg);
+  -moz-transform: rotate(-4deg);
+  -o-transform: rotate(-4deg);
+  -ms-transform: rotate(-4deg);
+  transform: rotate(-4deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+
+#polaroid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  background: #d8d0c0;
+}
+
+#polaroid figure.wide img {
+  aspect-ratio: 2 / 1;
+}
+
+#polaroid figcaption {
+  text-align: center;
+  font-family: var(--serif);
+  color: #454f40;
+  font-style: italic;
+  letter-spacing: .09em;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  #polaroid {
+    --pol-gap: 12px;
+    --pol-pad: 6px;
+    gap: 16px var(--pol-gap);
+    padding: 0 4px;
+  }
+  #polaroid figure {
+    padding-top: 6px;
+    padding-bottom: 9px;
+  }
+  #polaroid figure::before {
+    width: 70px;
+    height: 22px;
+    margin-left: -35px;
+    top: -10px;
+  }
+  #polaroid figcaption {
+    margin-top: 7px;
+    font-size: 12px;
+  }
+}

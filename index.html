@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Wedding of Sarah & Andi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Allura&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20261021-112000" />
+  <link rel="stylesheet" href="polaroid-igniel.css?v=20261021-094402" />
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <!-- ============ AUDIO ============ -->
+  <audio id="bgAudio" loop></audio>
+
+  <!-- ============ LOADER ============ -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-monogram">
+        <span class="letter">S</span>
+        <span class="amp">&amp;</span>
+        <span class="letter">A</span>
+      </div>
+      <div class="loader-line"></div>
+      <p class="loader-text">Opening our story…</p>
+    </div>
+  </div>
+
+  <!-- ============ COVER ============ -->
+  <section class="cover" id="cover" aria-label="Sampul undangan">
+    <div class="cover-media"></div>
+    <div class="cover-shade"></div>
+    <div class="cover-content">
+      <div class="cover-monogram" id="coverMonogram">S<span>&amp;</span>A</div>
+      <p class="cover-topline">The Wedding Invitation</p>
+      <p class="cover-names" id="coverNames">Sarah Putri &amp; Andi Wijaya</p>
+      <div class="hero-divider"><span>✦</span></div>
+      <p class="cover-sub" id="coverSub">We solemnly invite you to share our happiness</p>
+      <button class="open-button" id="btnOpen" type="button">Buka Undangan</button>
+    </div>
+  </section>
+
+  <!-- ============ INVITE ============ -->
+  <main class="invite" id="invite">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-media" id="heroMedia"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content" id="heroContent"></div>
+      <div class="hero-scroll">
+        <span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <!-- GREETING -->
+    <section class="greeting">
+      <div class="greeting-inner">
+        <p class="greeting-arabic reveal-left" id="greetingBismillah" dir="rtl" lang="ar">&#1576;&#1610;&#1587;&#1605; &#1575;&#1604;&#1604;&#1617;&#1607; &#1575;&#1604;&#1585;&#1617;&#1581;&#1605;&#1604;&#1648;&#1606; &#1575;&#1604;&#1585;&#1617;&#1581;&#1610;&#1605;</p>
+        <p class="greeting-salam reveal-right" id="greetingSalam">Assalamu&rsquo;alaikum warahmatullahi wabarakatuh</p>
+
+        <p class="greeting-pre reveal-left" id="greetingPre">The Wedding of</p>
+        <h2 class="greeting-names reveal-right" id="greetingNames">Sarah Putri &amp; Andi Wijaya</h2>
+
+        <div class="greeting-photo-wrap reveal-zoom">
+          <figure class="greeting-polaroid greeting-frame">
+            <img id="greetingPhoto" class="framed" src="assets/images/greeting-framed.png" alt="Foto pasangan" loading="lazy" />
+            <figcaption>Together with our beloved families</figcaption>
+          </figure>
+        </div>
+
+        <div class="greeting-families reveal-left">
+          <p class="family-block">
+            <span class="family-label">Putri tercinta dari</span>
+            <span class="family-names" id="brideParents"></span>
+          </p>
+          <p class="family-amp">&amp;</p>
+          <p class="family-block">
+            <span class="family-label">Putra tercinta dari</span>
+            <span class="family-names" id="groomParents"></span>
+          </p>
+        </div>
+
+        <div class="greeting-msg reveal-right">
+          <p id="greetingMsg"></p>
+          <p id="greetingMsg2"></p>
+        </div>
+
+        <p class="greeting-arabic greeting-duaa reveal-left" id="greetingDuaa" dir="rtl" lang="ar">&#1608;&#1614;&#1576;&#1614;&#1575;&#1585;&#1614;&#1603; &#1575;&#1604;&#1604;&#1617;&#1607; &#1604;&#1614;&#1603;&#1615;&#1605;&#1575; &#1608;&#1614;&#1576;&#1614;&#1575;&#1585;&#1614;&#1603; &#1593;&#1614;&#1604;&#1614;&#1610;&#1616;&#1603;&#1615;&#1605;&#1575; &#1608;&#1614;&#1580;&#1614;&#1605;&#1614;&#1593; &#1576;&#1614;&#1610;&#1616;&#1606;&#1614;&#1603;&#1615;&#1605;&#1575; &#1601;&#1616; &#1582;&#1614;&#1610;&#1618;&#1585;&#1618;</p>
+        <p class="greeting-duaa-mean reveal-right" id="greetingDuaaMeaning">Semoga Allah memberkahi kalian berdua, melimpahkan keberkahan atas kalian, dan menyatukan kalian berdua dalam kebaikan.</p>
+        <p class="greeting-salam reveal-left" id="greetingWassalam">Wassalamu&rsquo;alaikum warahmatullahi wabarakatuh</p>
+      </div>
+    </section>
+
+    <!-- EVENT SCHEDULE -->
+    <section class="schedule">
+      <h2 class="section-label" id="receptionTitle">Wedding Reception</h2>
+      <p class="section-sub" id="receptionSubtitle">A beautiful evening to celebrate our love</p>
+      <ol class="schedule-list" id="scheduleList"></ol>
+      <p class="reception-quote" id="receptionQuote"></p>
+    </section>
+
+    <!-- COUPLE GALLERY -->
+    <section class="gallery" id="gallery">
+      <h2 class="section-label">Our Story in Frames</h2>
+      <div id="polaroid"></div>
+    </section>
+
+    <!-- COUNTDOWN + VENUE -->
+    <section class="countdown venue" id="countdown">
+      <h2 class="section-label">Counting Down to Forever</h2>
+      <div class="cd-grid">
+        <div class="cd-item"><span class="cd-num" id="cdDays">00</span><span class="cd-unit">Days</span></div>
+        <div class="cd-item"><span class="cd-num" id="cdHours">00</span><span class="cd-unit">Hours</span></div>
+        <div class="cd-item"><span class="cd-num" id="cdMins">00</span><span class="cd-unit">Mins</span></div>
+        <div class="cd-item"><span class="cd-num" id="cdSecs">00</span><span class="cd-unit">Secs</span></div>
+      </div>
+
+      <div class="venue-block">
+        <h3 class="venue-label">Find Us</h3>
+        <div class="venue-card">
+          <div class="venue-info">
+            <p class="venue-name" id="venueName">The Grand Ballroom</p>
+            <p class="venue-hotel" id="venueHotel"></p>
+            <p class="venue-addr" id="venueAddr">Jl. Gatot Subroto No. 88, Jakarta Selatan</p>
+            <a class="venue-link" id="venueLink" href="#" target="_blank" rel="noopener">Open in Maps →</a>
+          </div>
+          <div class="venue-map-wrap">
+            <div class="venue-map" id="venueMap"></div>
+            <button class="map-style" id="mapStyle" type="button" title="Ganti tampilan peta">Peta</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- LIVE STREAMING -->
+    <section class="live">
+      <h2 class="live-title" id="liveTitle">Siaran Langsung</h2>
+      <p class="live-sub" id="liveSub">Hadir dari Mana Saja</p>
+      <div class="live-divider" aria-hidden="true"><span>&#9670;</span></div>
+
+      <div class="live-card">
+        <a class="live-video" id="liveVideo" href="#" target="_blank" rel="noopener">
+          <img id="liveThumb" alt="Pratinjau live streaming" />
+          <span class="live-badge" id="liveBadge">Live</span>
+          <span class="live-hint" id="liveHint"></span>
+          <span class="live-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"/></svg></span>
+        </a>
+        <div class="live-info">
+          <p class="live-label" id="liveLabel">Akad Nikah &amp; Resepsi</p>
+          <p class="live-date" id="liveDate">&nbsp;</p>
+          <p class="live-time" id="liveTime">&nbsp;</p>
+          <p class="live-desc" id="liveDesc"></p>
+          <div class="live-actions">
+            <a class="live-cta live-yt" id="liveBtnYoutube" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.9a3 3 0 0 0-2.1-2.1C19.5 4.3 12 4.3 12 4.3s-7.5 0-9.4.5A3 3 0 0 0 .5 6.9C0 8.8 0 12 0 12s0 3.2.5 5.1a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.1.5-5.1s0-3.2-.5-5.1z"/><path d="M9.6 15.6V8.4L15.8 12z" fill="#fff"/></svg><span>YouTube Live</span></a>
+            <a class="live-cta live-ig" id="liveBtnInstagram" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5.2"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg><span>Instagram Live</span></a>
+          </div>
+        </div>
+      </div>
+
+      <a class="live-calendar" id="liveCalendar" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 10h17"/><path d="M8 3v4M16 3v4"/></svg><span>Simpan ke Kalender</span></a>
+      <p class="live-note" id="liveNote"></p>
+    </section>
+
+    <!-- RSVP / THANK YOU -->
+    <section class="rsvp">
+      <div class="rsvp-card">
+        <p class="rsvp-label">With Blessings</p>
+        <h2 class="rsvp-title" id="rsvpTitle">Sarah &amp; Andi</h2>
+        <p class="rsvp-sub">Thank you for being a part of our love story.</p>
+      </div>
+    </section>
+
+    <!-- GUEST SECTION (RSVP & Wishes) -->
+    <section class="guests">
+      <h2 class="section-label">Répondez s’il vous plaît</h2>
+      <p class="section-sub" id="guestSub">Konfirmasi kehadiran dan ucapan doa dari tamu</p>
+      <div class="guest-card">
+        <span class="petal p1" aria-hidden="true"></span><span class="petal p2" aria-hidden="true"></span><span class="petal p3" aria-hidden="true"></span><span class="petal p4" aria-hidden="true"></span><span class="petal p5" aria-hidden="true"></span>
+                <span class="seal" id="sealBox"><svg class="seal-svg" viewBox="0 0 140 140" role="img" aria-label="Segel invitations">
+  <defs>
+    <radialGradient id="waxFill" cx="36%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#f7e3b4"/>
+      <stop offset="42%" stop-color="#dfb96f"/>
+      <stop offset="76%" stop-color="#bf9346"/>
+      <stop offset="100%" stop-color="#8e6a2c"/>
+    </radialGradient>
+    <radialGradient id="waxRim" cx="50%" cy="50%" r="52%">
+      <stop offset="82%" stop-color="#6b4f1f" stop-opacity=".40"/>
+      <stop offset="100%" stop-color="#6b4f1f" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="waxSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fffaf0" stop-opacity=".38"/>
+      <stop offset="60%" stop-color="#fffaf0" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="waxSoft" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="1.3"/>
+    </filter>
+  </defs>
+  <path d="M 133.1 70.0 C 133.1 73.1 130.2 76.3 128.9 79.3 C 127.6 82.3 125.9 84.8 125.3 88.0 C 124.7 91.1 126.3 95.2 125.2 98.1 C 124.2 101.1 121.5 103.6 119.1 105.7 C 116.6 107.7 112.8 108.3 110.6 110.6 C 108.4 112.9 107.8 116.8 105.8 119.2 C 103.7 121.7 101.2 124.4 98.2 125.3 C 95.2 126.3 91.1 124.6 87.9 125.1 C 84.7 125.6 82.2 127.1 79.2 128.2 C 76.2 129.4 73.1 132.1 70.0 132.1 C 66.9 132.0 63.8 129.2 60.8 128.0 C 57.8 126.8 55.3 125.3 52.2 124.9 C 49.0 124.4 44.8 126.2 41.8 125.4 C 38.8 124.5 36.1 121.9 34.0 119.6 C 31.8 117.2 31.1 113.4 28.9 111.1 C 26.6 108.9 22.7 108.2 20.3 106.1 C 17.9 104.0 15.3 101.4 14.4 98.3 C 13.5 95.3 15.4 91.1 15.0 87.9 C 14.5 84.7 13.1 82.2 11.9 79.2 C 10.8 76.2 8.0 73.1 8.0 70.0 C 8.0 66.9 10.8 63.8 11.9 60.8 C 13.1 57.8 14.6 55.3 15.0 52.1 C 15.5 49.0 13.7 44.8 14.7 41.8 C 15.6 38.8 18.3 36.3 20.7 34.2 C 23.2 32.1 27.1 31.5 29.3 29.3 C 31.6 27.1 32.2 23.3 34.3 20.9 C 36.4 18.4 38.9 15.8 41.9 14.8 C 44.8 13.8 48.9 15.4 52.1 14.8 C 55.2 14.2 57.7 12.6 60.7 11.3 C 63.7 9.9 66.9 7.1 70.0 7.0 C 73.1 7.0 76.3 9.8 79.3 11.0 C 82.3 12.3 84.9 14.0 88.0 14.6 C 91.1 15.2 95.2 13.7 98.1 14.8 C 101.0 15.9 103.4 18.7 105.4 21.2 C 107.4 23.7 107.9 27.6 110.1 29.9 C 112.3 32.1 116.2 32.6 118.6 34.7 C 121.1 36.7 123.9 39.1 125.0 42.0 C 126.1 44.9 124.6 48.9 125.2 52.1 C 125.9 55.2 127.6 57.7 128.9 60.7 C 130.2 63.7 133.1 66.9 133.1 70.0 Z" fill="url(#waxFill)"/>
+  <path d="M 133.1 70.0 C 133.1 73.1 130.2 76.3 128.9 79.3 C 127.6 82.3 125.9 84.8 125.3 88.0 C 124.7 91.1 126.3 95.2 125.2 98.1 C 124.2 101.1 121.5 103.6 119.1 105.7 C 116.6 107.7 112.8 108.3 110.6 110.6 C 108.4 112.9 107.8 116.8 105.8 119.2 C 103.7 121.7 101.2 124.4 98.2 125.3 C 95.2 126.3 91.1 124.6 87.9 125.1 C 84.7 125.6 82.2 127.1 79.2 128.2 C 76.2 129.4 73.1 132.1 70.0 132.1 C 66.9 132.0 63.8 129.2 60.8 128.0 C 57.8 126.8 55.3 125.3 52.2 124.9 C 49.0 124.4 44.8 126.2 41.8 125.4 C 38.8 124.5 36.1 121.9 34.0 119.6 C 31.8 117.2 31.1 113.4 28.9 111.1 C 26.6 108.9 22.7 108.2 20.3 106.1 C 17.9 104.0 15.3 101.4 14.4 98.3 C 13.5 95.3 15.4 91.1 15.0 87.9 C 14.5 84.7 13.1 82.2 11.9 79.2 C 10.8 76.2 8.0 73.1 8.0 70.0 C 8.0 66.9 10.8 63.8 11.9 60.8 C 13.1 57.8 14.6 55.3 15.0 52.1 C 15.5 49.0 13.7 44.8 14.7 41.8 C 15.6 38.8 18.3 36.3 20.7 34.2 C 23.2 32.1 27.1 31.5 29.3 29.3 C 31.6 27.1 32.2 23.3 34.3 20.9 C 36.4 18.4 38.9 15.8 41.9 14.8 C 44.8 13.8 48.9 15.4 52.1 14.8 C 55.2 14.2 57.7 12.6 60.7 11.3 C 63.7 9.9 66.9 7.1 70.0 7.0 C 73.1 7.0 76.3 9.8 79.3 11.0 C 82.3 12.3 84.9 14.0 88.0 14.6 C 91.1 15.2 95.2 13.7 98.1 14.8 C 101.0 15.9 103.4 18.7 105.4 21.2 C 107.4 23.7 107.9 27.6 110.1 29.9 C 112.3 32.1 116.2 32.6 118.6 34.7 C 121.1 36.7 123.9 39.1 125.0 42.0 C 126.1 44.9 124.6 48.9 125.2 52.1 C 125.9 55.2 127.6 57.7 128.9 60.7 C 130.2 63.7 133.1 66.9 133.1 70.0 Z" fill="url(#waxRim)"/>
+  <path d="M 133.1 70.0 C 133.1 73.1 130.2 76.3 128.9 79.3 C 127.6 82.3 125.9 84.8 125.3 88.0 C 124.7 91.1 126.3 95.2 125.2 98.1 C 124.2 101.1 121.5 103.6 119.1 105.7 C 116.6 107.7 112.8 108.3 110.6 110.6 C 108.4 112.9 107.8 116.8 105.8 119.2 C 103.7 121.7 101.2 124.4 98.2 125.3 C 95.2 126.3 91.1 124.6 87.9 125.1 C 84.7 125.6 82.2 127.1 79.2 128.2 C 76.2 129.4 73.1 132.1 70.0 132.1 C 66.9 132.0 63.8 129.2 60.8 128.0 C 57.8 126.8 55.3 125.3 52.2 124.9 C 49.0 124.4 44.8 126.2 41.8 125.4 C 38.8 124.5 36.1 121.9 34.0 119.6 C 31.8 117.2 31.1 113.4 28.9 111.1 C 26.6 108.9 22.7 108.2 20.3 106.1 C 17.9 104.0 15.3 101.4 14.4 98.3 C 13.5 95.3 15.4 91.1 15.0 87.9 C 14.5 84.7 13.1 82.2 11.9 79.2 C 10.8 76.2 8.0 73.1 8.0 70.0 C 8.0 66.9 10.8 63.8 11.9 60.8 C 13.1 57.8 14.6 55.3 15.0 52.1 C 15.5 49.0 13.7 44.8 14.7 41.8 C 15.6 38.8 18.3 36.3 20.7 34.2 C 23.2 32.1 27.1 31.5 29.3 29.3 C 31.6 27.1 32.2 23.3 34.3 20.9 C 36.4 18.4 38.9 15.8 41.9 14.8 C 44.8 13.8 48.9 15.4 52.1 14.8 C 55.2 14.2 57.7 12.6 60.7 11.3 C 63.7 9.9 66.9 7.1 70.0 7.0 C 73.1 7.0 76.3 9.8 79.3 11.0 C 82.3 12.3 84.9 14.0 88.0 14.6 C 91.1 15.2 95.2 13.7 98.1 14.8 C 101.0 15.9 103.4 18.7 105.4 21.2 C 107.4 23.7 107.9 27.6 110.1 29.9 C 112.3 32.1 116.2 32.6 118.6 34.7 C 121.1 36.7 123.9 39.1 125.0 42.0 C 126.1 44.9 124.6 48.9 125.2 52.1 C 125.9 55.2 127.6 57.7 128.9 60.7 C 130.2 63.7 133.1 66.9 133.1 70.0 Z" fill="none" stroke="#6b4f1f" stroke-opacity=".38" stroke-width="1.3"/>
+  <path d="M 133.1 70.0 C 133.1 73.1 130.2 76.3 128.9 79.3 C 127.6 82.3 125.9 84.8 125.3 88.0 C 124.7 91.1 126.3 95.2 125.2 98.1 C 124.2 101.1 121.5 103.6 119.1 105.7 C 116.6 107.7 112.8 108.3 110.6 110.6 C 108.4 112.9 107.8 116.8 105.8 119.2 C 103.7 121.7 101.2 124.4 98.2 125.3 C 95.2 126.3 91.1 124.6 87.9 125.1 C 84.7 125.6 82.2 127.1 79.2 128.2 C 76.2 129.4 73.1 132.1 70.0 132.1 C 66.9 132.0 63.8 129.2 60.8 128.0 C 57.8 126.8 55.3 125.3 52.2 124.9 C 49.0 124.4 44.8 126.2 41.8 125.4 C 38.8 124.5 36.1 121.9 34.0 119.6 C 31.8 117.2 31.1 113.4 28.9 111.1 C 26.6 108.9 22.7 108.2 20.3 106.1 C 17.9 104.0 15.3 101.4 14.4 98.3 C 13.5 95.3 15.4 91.1 15.0 87.9 C 14.5 84.7 13.1 82.2 11.9 79.2 C 10.8 76.2 8.0 73.1 8.0 70.0 C 8.0 66.9 10.8 63.8 11.9 60.8 C 13.1 57.8 14.6 55.3 15.0 52.1 C 15.5 49.0 13.7 44.8 14.7 41.8 C 15.6 38.8 18.3 36.3 20.7 34.2 C 23.2 32.1 27.1 31.5 29.3 29.3 C 31.6 27.1 32.2 23.3 34.3 20.9 C 36.4 18.4 38.9 15.8 41.9 14.8 C 44.8 13.8 48.9 15.4 52.1 14.8 C 55.2 14.2 57.7 12.6 60.7 11.3 C 63.7 9.9 66.9 7.1 70.0 7.0 C 73.1 7.0 76.3 9.8 79.3 11.0 C 82.3 12.3 84.9 14.0 88.0 14.6 C 91.1 15.2 95.2 13.7 98.1 14.8 C 101.0 15.9 103.4 18.7 105.4 21.2 C 107.4 23.7 107.9 27.6 110.1 29.9 C 112.3 32.1 116.2 32.6 118.6 34.7 C 121.1 36.7 123.9 39.1 125.0 42.0 C 126.1 44.9 124.6 48.9 125.2 52.1 C 125.9 55.2 127.6 57.7 128.9 60.7 C 130.2 63.7 133.1 66.9 133.1 70.0 Z" fill="url(#waxSheen)"/>
+  <circle cx="70" cy="70" r="45" fill="none" stroke="#6b4f1f" stroke-opacity=".34" stroke-width="1.2"/>
+  <circle cx="70" cy="70" r="45" fill="none" stroke="#fff3d4" stroke-opacity=".5" stroke-width="1.2" transform="translate(0,1.3)"/>
+  <ellipse cx="55" cy="45" rx="24" ry="13" fill="#fffdf6" opacity=".22" filter="url(#waxSoft)"/>
+  <text x="70" y="71.8" text-anchor="middle" dominant-baseline="central"
+        font-family="Allura, cursive" font-size="37" fill="#3c2e13" opacity=".42">S&amp;A</text>
+  <text x="70" y="69" text-anchor="middle" dominant-baseline="central"
+        font-family="Allura, cursive" font-size="37" fill="#fff3d4" opacity=".4">S&amp;A</text>
+  <text x="70" y="70" text-anchor="middle" dominant-baseline="central"
+        font-family="Allura, cursive" font-size="37" fill="#4b3a1c">S&amp;A</text>
+</svg></span></span>
+        <p class="guest-intro" id="guestIntro">Sampaikan konfirmasi kehadiran dan doa Anda kepada kami.</p>
+        <div class="guest-choice" id="guestChoice" role="group" aria-label="Konfirmasi kehadiran">
+          <button class="guest-opt" type="button" data-value="Hadir">Hadir</button>
+          <button class="guest-opt" type="button" data-value="Tidak hadir">Tidak hadir</button>
+        </div>
+        <input class="guest-input" id="guestName" type="text" placeholder="Nama Anda" autocomplete="name" />
+        <textarea class="guest-textarea" id="guestMsg" rows="3" maxlength="5000" placeholder="Ucapan &amp; Doa"></textarea>
+        <p class="guest-counter" id="guestCounter">0 / 5000</p>
+        <a class="guest-send" id="guestSend" href="#" target="_blank" rel="noopener">Kirim via WhatsApp</a>
+        <p class="guest-note" id="guestNote">Atau konfirmasi langsung kepada kami kapan saja.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 The Wedding of Sarah &amp; Andi · Made with love</p>
+    </footer>
+  </main>
+
+  <!-- MUSIC TOGGLE -->
+  <button class="music-toggle" id="musicToggle" aria-label="Toggle music">
+    <span class="mt-icon" id="mtIcon">▶</span>
+  </button>
+  <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;bottom:0;right:0;"></div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <img class="lightbox-img" id="lightboxImg" alt="" />
+  </div>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="config.js?v=20261021-094402"></script>
+  <script src="script.js?v=20261021-094402"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
