@@ -179,7 +179,7 @@ const WEDDING_CONFIG = {
     guestNo: "Tidak hadir",
     guestNamePlaceholder: "Nama Anda",
     guestMsgPlaceholder: "Ucapan & Doa",
-    guestSend: "Kirim WhatsApp",
+    guestSend: "Kirim",
     rsvpLabel: "With Blessings",
     rsvpSub: "Thank you for being a part of our love story.",
     footerNote: "Made with love",
