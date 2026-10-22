@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Allura&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261021-154000" />
+  <link rel="stylesheet" href="styles.css?v=20261022-164000" />
   <link rel="stylesheet" href="polaroid-igniel.css?v=20261021-154000" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
@@ -27,7 +27,7 @@
         <span class="letter">A</span>
       </div>
       <div class="loader-line"></div>
-      <p class="loader-text">Opening our story…</p>
+      <p class="loader-text" id="loaderText">Opening our story…</p>
     </div>
   </div>
 
@@ -37,11 +37,19 @@
     <div class="cover-shade"></div>
     <div class="cover-content">
       <div class="cover-monogram" id="coverMonogram">S<span>&amp;</span>A</div>
-      <p class="cover-topline">The Wedding Invitation</p>
+      <p class="cover-topline" id="coverTopline">The Wedding Invitation</p>
       <p class="cover-names" id="coverNames">Sarah Putri &amp; Andi Wijaya</p>
-      <div class="hero-divider"><span>✦</span></div>
+      <div class="hero-divider" aria-hidden="true">
+        <span>
+          <svg class="orn" viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+            <path d="M16 14.2V4" />
+            <path d="M16 6.2C13 6.2 10 4.6 9 1.6c3-.2 6 1.2 7 4.6z" />
+            <path d="M16 9.6c3 0 6-1.6 7-4.6-3-.2-6 1.2-7 4.6z" />
+          </svg>
+        </span>
+      </div>
       <p class="cover-sub" id="coverSub">We solemnly invite you to share our happiness</p>
-      <button class="open-button" id="btnOpen" type="button">Buka Undangan</button>
+      <button class="open-button" id="btnOpen" type="button"><span id="openButtonLabel">Buka Undangan</span></button>
     </div>
   </section>
 
@@ -54,7 +62,8 @@
       <div class="hero-overlay"></div>
       <div class="hero-content" id="heroContent"></div>
       <div class="hero-scroll">
-        <span></span><span></span><span></span>
+        <span class="hero-scroll__text" id="scrollHint">Scroll Down</span>
+        <span class="hero-scroll__line"></span>
       </div>
     </section>
 
@@ -70,18 +79,18 @@
         <div class="greeting-photo-wrap reveal-zoom">
           <figure class="greeting-polaroid greeting-frame">
             <img id="greetingPhoto" class="framed" src="assets/images/greeting-framed.png" alt="Foto pasangan" loading="lazy" />
-            <figcaption>Together with our beloved families</figcaption>
+            <figcaption id="greetingCaption">Together with our beloved families</figcaption>
           </figure>
         </div>
 
         <div class="greeting-families reveal-left">
           <p class="family-block">
-            <span class="family-label">Putri tercinta dari</span>
+            <span class="family-label" id="brideFamilyLabel">Putri tercinta dari</span>
             <span class="family-names" id="brideParents"></span>
           </p>
           <p class="family-amp">&amp;</p>
           <p class="family-block">
-            <span class="family-label">Putra tercinta dari</span>
+            <span class="family-label" id="groomFamilyLabel">Putra tercinta dari</span>
             <span class="family-names" id="groomParents"></span>
           </p>
         </div>
@@ -107,13 +116,13 @@
 
     <!-- COUPLE GALLERY -->
     <section class="gallery" id="gallery">
-      <h2 class="section-label">Our Story in Frames</h2>
+      <h2 class="section-label" id="galleryTitle">Our Story in Frames</h2>
       <div id="polaroid"></div>
     </section>
 
     <!-- COUNTDOWN + VENUE -->
     <section class="countdown venue" id="countdown">
-      <h2 class="section-label">Counting Down to Forever</h2>
+      <h2 class="section-label" id="countdownTitle">Counting Down to Forever</h2>
       <div class="cd-grid">
         <div class="cd-item"><span class="cd-num" id="cdDays">00</span><span class="cd-unit">Days</span></div>
         <div class="cd-item"><span class="cd-num" id="cdHours">00</span><span class="cd-unit">Hours</span></div>
@@ -122,7 +131,7 @@
       </div>
 
       <div class="venue-block">
-        <h3 class="venue-label">Find Us</h3>
+        <h3 class="venue-label" id="venueTitle">Find Us</h3>
         <div class="venue-card">
           <div class="venue-info">
             <p class="venue-name" id="venueName">The Grand Ballroom</p>
@@ -141,19 +150,26 @@
 
     <!-- LIVE STREAMING -->
     <section class="live">
-      <h2 class="live-title" id="liveTitle">Siaran Langsung</h2>
-      <p class="live-sub" id="liveSub">Hadir dari Mana Saja</p>
-      <div class="live-divider" aria-hidden="true"><span>&#9670;</span></div>
-
+      <h2 class="live-title" id="liveTitle">Join Us From Anywhere</h2>
+      <p class="live-sub" id="liveSub">Live Streaming</p>
+      <div class="live-divider" aria-hidden="true">
+        <span>
+          <svg class="orn" viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+            <path d="M16 14.2V4" />
+            <path d="M16 6.2C13 6.2 10 4.6 9 1.6c3-.2 6 1.2 7 4.6z" />
+            <path d="M16 9.6c3 0 6-1.6 7-4.6-3-.2-6 1.2-7 4.6z" />
+          </svg>
+        </span>
+      </div>
       <div class="live-card">
         <a class="live-video" id="liveVideo" href="#" target="_blank" rel="noopener">
-          <img id="liveThumb" alt="Pratinjau live streaming" />
+          <img id="liveThumb" alt="Live streaming preview" />
           <span class="live-badge" id="liveBadge">Live</span>
           <span class="live-hint" id="liveHint"></span>
           <span class="live-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"/></svg></span>
         </a>
         <div class="live-info">
-          <p class="live-label" id="liveLabel">Akad Nikah &amp; Resepsi</p>
+          <p class="live-label" id="liveLabel">Wedding Reception</p>
           <p class="live-date" id="liveDate">&nbsp;</p>
           <p class="live-time" id="liveTime">&nbsp;</p>
           <p class="live-desc" id="liveDesc"></p>
@@ -168,18 +184,16 @@
       <p class="live-note" id="liveNote"></p>
     </section>
 
-    <!-- RSVP / THANK YOU -->
-    <section class="rsvp">
-      <div class="rsvp-card">
-        <p class="rsvp-label">With Blessings</p>
-        <h2 class="rsvp-title" id="rsvpTitle">Sarah &amp; Andi</h2>
-        <p class="rsvp-sub">Thank you for being a part of our love story.</p>
-      </div>
+    <!-- KADO & UCAPAN -->
+    <section class="gift" id="gift" aria-labelledby="giftTitle">
+      <h2 class="section-label gift-title" id="giftTitle">Gifts &amp; Wishes</h2>
+      <p class="section-sub" id="giftSub">Kehadiran Anda adalah kado terindah bagi kami. Jika berkenan memberikan hadiah, kami menyediakan opsi berikut:</p>
+      <div class="gift-grid" id="giftGrid"></div>
     </section>
 
     <!-- GUEST SECTION (RSVP & Wishes) -->
     <section class="guests">
-      <h2 class="section-label">Répondez s’il vous plaît</h2>
+      <h2 class="section-label" id="guestTitle">Répondez s’il vous plaît</h2>
       <p class="section-sub" id="guestSub">Konfirmasi kehadiran dan ucapan doa dari tamu</p>
       <div class="guest-card">
         <span class="petal p1" aria-hidden="true"></span><span class="petal p2" aria-hidden="true"></span><span class="petal p3" aria-hidden="true"></span><span class="petal p4" aria-hidden="true"></span><span class="petal p5" aria-hidden="true"></span>
@@ -225,13 +239,22 @@
         <input class="guest-input" id="guestName" type="text" placeholder="Nama Anda" autocomplete="name" />
         <textarea class="guest-textarea" id="guestMsg" rows="3" maxlength="5000" placeholder="Ucapan &amp; Doa"></textarea>
         <p class="guest-counter" id="guestCounter">0 / 5000</p>
-        <a class="guest-send" id="guestSend" href="#" target="_blank" rel="noopener">Kirim via WhatsApp</a>
+        <a class="guest-send" id="guestSend" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg><span>Kirim WhatsApp</span></a>
         <p class="guest-note" id="guestNote">Atau konfirmasi langsung kepada kami kapan saja.</p>
       </div>
     </section>
 
+    <!-- RSVP / THANK YOU (penutup undangan) -->
+    <section class="rsvp">
+      <div class="rsvp-card">
+        <p class="rsvp-label" id="rsvpLabel">With Blessings</p>
+        <h2 class="rsvp-title" id="rsvpTitle">Sarah &amp; Andi</h2>
+        <p class="rsvp-sub" id="rsvpSub">Thank you for being a part of our love story.</p>
+      </div>
+    </section>
+
     <footer class="footer">
-      <p>© 2026 The Wedding of Sarah &amp; Andi · Made with love</p>
+      <p id="footerCopy">© 2026 The Wedding of Sarah &amp; Andi · Made with love</p>
     </footer>
   </main>
 
@@ -241,14 +264,37 @@
   </button>
   <div id="ytPlayer" style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;bottom:0;right:0;"></div>
 
+  <!-- TOAST (konfirmasi salin nomor rekening) -->
+  <div class="gift-toast" id="giftToast" role="status" aria-live="polite"></div>
+
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <img class="lightbox-img" id="lightboxImg" alt="" />
   </div>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="config.js?v=20261021-154000"></script>
-  <script src="script.js?v=20261021-154000"></script>
+  <script src="config.js?v=20261022-164000"></script>
+  <script src="script.js?v=20261022-164000"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

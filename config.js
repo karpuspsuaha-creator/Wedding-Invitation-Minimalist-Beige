@@ -20,6 +20,8 @@ const WEDDING_CONFIG = {
   },
 
   // --- TANGGAL & WAKTU ---
+  // weddingDate = tanggal akad & resepsi (format YYYY-MM-DD)
+  // jam live diambil dari reception.events[0].time (contoh "15.30" = 15.30 WIB)
   weddingDate: "2026-11-28", // format: YYYY-MM-DD
   // --- ACARA RESEPSI (timeline Event Details) ---
   reception: {
@@ -106,12 +108,42 @@ const WEDDING_CONFIG = {
     youtubeId: "",    // id video YouTube untuk thumbnail
     instagram: "",    // akun Instagram
     hint: "Siaran langsung akan dimulai 10 menit sebelum acara",
-    title: "Hadir dari Mana Saja",
-    subtitle: "Siaran Langsung",
+    title: "Join Us From Anywhere",
+    subtitle: "Live Streaming",
     label: "Wedding Reception",
     desc: "Tidak bisa hadir secara langsung? Ikuti momen berharga kami lewat live streaming.",
     note: "Kami akan mengirim pengingat 1 jam sebelum acara dimulai",
     calendar: true,
+  },
+
+  // --- KADO & UCAPAN (transfer bank / dompet digital) ---
+  // Ganti nomor rekening & nomor DANA di sini, section otomatis ikut berubah.
+  // "display" (opsional): teks yang dilihat tamu, berbeda dari nilai yang disalin.
+  gift: {
+    title: "Gifts & Wishes",
+    subtitle:
+      "Kehadiran Anda adalah kado terindah bagi kami. Jika berkenan memberikan hadiah, kami menyediakan opsi berikut:",
+    accounts: [
+      {
+        kind: "Transfer Bank",
+        title: "Bank Mandiri",
+        image: "assets/images/mandiri-card.jpg",
+        label: "Nomor Rekening",
+        number: "123000555777999",
+        holder: "a.n. Romeo Pratama",
+        copyLabel: "Salin nomor rekening",
+      },
+      {
+        kind: "Dompet Digital",
+        title: "DANA",
+        image: "assets/images/dana-card.svg",
+        label: "Nomor DANA",
+        number: "081234567890",
+        display: "0812 3456 7890",
+        holder: "a.n. Romeo Pratama",
+        copyLabel: "Salin nomor DANA",
+      },
+    ],
   },
 
   // --- TAMU (RSVP & Wishes) ---
@@ -122,6 +154,42 @@ const WEDDING_CONFIG = {
     note: "Atau konfirmasi langsung kepada kami kapan saja.",
   },
 
-  // --- COUNTDOWN TARGET ---
-  countdownTarget: "2026-11-28T08:00:00",
+  // --- TEKS UI ---
+  // Semua teks statis (judul section, label tombol, placeholder) ada di sini,
+  // jadi tinggal ubah file ini kalau mau mengganti kata-katanya.
+  ui: {
+    loaderText: "Opening our story…",
+    coverTopline: "The Wedding Invitation",
+    openButton: "Buka Undangan",
+    scrollHint: "Scroll Down",
+    greetingCaption: "Together with our beloved families",
+    brideFamilyLabel: "Putri tercinta dari",
+    groomFamilyLabel: "Putra tercinta dari",
+    galleryTitle: "Our Story in Frames",
+    galleryCaption: "Our Moment",
+    countdownTitle: "Counting Down to Forever",
+    countdownUnits: { days: "Days", hours: "Hours", mins: "Mins", secs: "Secs" },
+    venueTitle: "Find Us",
+    venueMapLabel: "Peta",
+    liveCalendar: "Simpan ke Kalender",
+    liveYoutube: "YouTube Live",
+    liveInstagram: "Instagram Live",
+    guestTitle: "Répondez s’il vous plaît",
+    guestYes: "Hadir",
+    guestNo: "Tidak hadir",
+    guestNamePlaceholder: "Nama Anda",
+    guestMsgPlaceholder: "Ucapan & Doa",
+    guestSend: "Kirim WhatsApp",
+    rsvpLabel: "With Blessings",
+    rsvpSub: "Thank you for being a part of our love story.",
+    footerNote: "Made with love",
+  },
+
+  // --- COUNTDOWN ---
+  // Default: countdown memakai tanggal (weddingDate) + jam live pertama
+  // di timeline (reception.events[0].time). Jadi cukup ganti weddingDate
+  // + jam live, semuanya ikut berubah.
+  // Kalau mau countdown ke waktu lain, isi (opsional), contoh:
+  // countdownTarget: "2026-10-23T08:00:00+07:00",
+  countdownTarget: "",
 };

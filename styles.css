@@ -13,6 +13,9 @@
   --blush: #d9b8a3;
   --line: rgba(138, 106, 53, .28);
   --shadow: 0 24px 60px rgba(36, 53, 46, .12);
+  /* tinggi semua tombol (buka undangan, youtube/IG, kalender,
+     hadir/tidak hadir, kirim whatsapp) -> sama rata */
+  --btn-h: 44px;
   /* satu keluarga serif untuk seluruh halaman (Cormorant Garamond)
      + script (Allura) hanya untuk monogram & aksen romantis */
   --serif: 'Cormorant Garamond', Georgia, serif;
@@ -32,7 +35,22 @@ html {
      -> konten cover/loader tidak pernah terlihat "geser ke kanan" */
   overflow-x: hidden;
   overflow-x: clip;
+  /* SCROLLBAR Halaman: DIHILANGKAN TOTAL (lebar 0).
+     Efeknya: browser tidak menyisakan ruang scrollbar di tepi kanan,
+     jadi loader & cover benar-benar menutup 100% layar tanpa ada
+     strip / "space" tersisa. Karena ruang scrollbar = 0, isi juga
+     tidak pernah bergeser saat cover ditutup. */
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
 }
+html::-webkit-scrollbar { width: 0; height: 0; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb { background: transparent; }
+/* Saat loader/cover tampil, kanvas & body memakai warna tepi cover
+   (#2c4439) => walau ada selisih 1-2px, yang terlihat tetap gelap,
+   bukan strip putih. */
+html:not(.is-open) { background: #2c4439; }
 
 body {
   color: var(--ink);
@@ -50,15 +68,25 @@ a { color: inherit; text-decoration: none; }
 
 button { font: inherit; cursor: pointer; border: none; background: none; }
 
-body:not(.is-open) { overflow: hidden; }
+body:not(.is-open) {
+  overflow: hidden;
+  /* warna tepi cover -> tidak ada strip terang di luar area cover */
+  background: #2c4439;
+}
 .loader {
-  position: fixed; top: 0; left: 0; bottom: auto;
+  /* inset:0 => loader menempel tepat di 4 sisi viewport, lebar = lebar
+     viewport penuh (TANPA ruang scrollbar karena scrollbar browser
+     dimatikan) => 100% full, tidak ada space tersisa di tepi. */
+  position: fixed; inset: 0;
   z-index: 200;
   /* svh = tinggi area yang benar-benar terlihat (tidak termasuk area
      di balik URL bar browser) => konten loader tetap di tengah layar.
-     100vw (bukan 100%) supaya ikut menutup area scrollbar, isi tetap
-     di tengah layar. */
-  width: 100vw; height: 100vh; height: 100svh;
+     dvh (paling akhir): loader ikut tinggi layar nyata -> tetap FULL
+     walau URL bar browser berubah tinggi.
+     min-height:100% => minimal setinggi layout viewport, jadi tidak
+     pernah ada celah di bawah. */
+  width: auto; height: 100vh; height: 100svh; height: 100dvh;
+  min-height: 100%;
   display: flex; align-items: center; justify-content: center;
   padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   background: radial-gradient(circle at 50% 40%, #2a4036, #1a2b24);
@@ -105,13 +133,15 @@ body:not(.is-open) { overflow: hidden; }
 }
 
 /* ---------- INVITE ---------- */
+/* transisi buka: CROSSFADE (pudar gelap -> terang), tidak ada geser/
+   terangkat, jadi cover tidak terlihat "naik" saat menghilang. */
 .invite {
   position: relative; min-height: 100vh;
-  opacity: 0; transform: translateY(36px);
-  transition: opacity .9s ease, transform 1s cubic-bezier(.22,1,.36,1);
+  opacity: 0;
+  transition: opacity .75s ease;
 }
 body.is-open .invite {
-  opacity: 1; transform: translateY(0);
+  opacity: 1;
 }
 
 /* ---------- HERO ---------- */
@@ -143,7 +173,7 @@ body.is-open .invite {
 }
 /* jejak kosong untuk tombol "Buka Undangan" supaya tinggi blok hero
    sama persis dengan cover -> tidak ada lompat saat cover terangkat */
-.open-button-spacer { display: block; height: 48px; margin-top: 36px; }
+.open-button-spacer { display: block; height: var(--btn-h); margin-top: 36px; }
 .hero .cover-monogram,
 .hero .cover-topline,
 .hero .cover-names,
@@ -161,26 +191,30 @@ body.is-open .invite {
   text-align: center;
   display: inline-block;
 }
+/* ---------- PEMBATAS (DIVIDER) ----------
+   Motif: dua helai rambut (hairline) lurus yang memudar ke ujung +
+   satu ranting daun kecil di tengah. Hairline memakai warna SOLID +
+   mask gradient (bukan gradient warna) supaya tidak dibalik Auto Dark
+   Mode Chrome, yang hanya mengubah warna, bukan alpha. */
 .hero-divider {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  margin: 0 auto 22px; color: var(--gold-light); font-size: 14px;
+  display: flex; align-items: center; justify-content: center; gap: 13px;
+  margin: 0 auto 22px; color: var(--gold-light);
 }
-/* pembatas: dua garis rambut putih + berlian emas kecil di tengah.
-   Garisnya dibuat lebih terang & lebar + ada glow supaya tidak
-   "hilang" di atas bagian foto yang terang. */
 .hero-divider::before, .hero-divider::after {
-  content: ''; height: 1px; width: 88px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .95));
-  box-shadow: 0 0 7px rgba(255, 255, 255, .5);
+  content: ''; height: 1px; width: 82px;
+  background: currentColor; opacity: .7;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 88%);
+  mask-image: linear-gradient(90deg, transparent, #000 88%);
 }
-.hero-divider::after { background: linear-gradient(90deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .12)); }
+.hero-divider::after {
+  -webkit-mask-image: linear-gradient(90deg, #000 12%, transparent);
+  mask-image: linear-gradient(90deg, #000 12%, transparent);
+}
 .hero-divider span {
-  width: 7px; height: 7px;
-  background: var(--gold-light);
-  transform: rotate(45deg);
-  font-size: 0; line-height: 0;
-  box-shadow: 0 0 9px rgba(226, 201, 157, .8);
+  display: block; width: 34px; height: 17px; flex: none;
+  filter: drop-shadow(0 0 6px rgba(226, 201, 157, .55));
 }
+.hero-divider .orn { display: block; width: 100%; height: 100%; }
 .hero-sub {
   font-family: var(--serif); font-size: clamp(16px, 3vw, 22px);
   font-style: italic; color: var(--ink-soft);
@@ -200,21 +234,47 @@ body.is-open .invite {
   transform: translateY(-2px);
   box-shadow: 0 14px 36px rgba(0,0,0,.25);
 }
+/* ---------- SCROLL HINT (hero) ----------
+   Tulisan "Scroll Down" yang melayang + garis tipis dengan cahaya turun */
 .hero-scroll {
-  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; gap: 6px; align-items: center;
+  position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  pointer-events: none;
 }
-.hero-scroll span {
-  width: 2px; height: 10px; background: var(--ink-soft); border-radius: 2px;
-  animation: scrollHint 1.8s ease-in-out infinite;
+.hero-scroll__text {
+  font-family: var(--serif);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .34em; text-transform: uppercase;
+  color: rgba(255, 255, 255, .82);
+  text-shadow: 0 2px 12px rgba(20, 34, 29, .4);
+  animation: scrollFloat 2.8s ease-in-out infinite;
 }
-.hero-scroll span:nth-child(2) { animation-delay: .2s; }
-.hero-scroll span:nth-child(3) { animation-delay: .4s; }
-@keyframes scrollHint { 0%,100% { opacity:.3; transform: translateY(0);} 50% { opacity:1; transform: translateY(6px);} }
+.hero-scroll__line {
+  position: relative; overflow: hidden;
+  width: 1px; height: 38px;
+  background: linear-gradient(180deg, rgba(226, 201, 157, .5), rgba(226, 201, 157, 0));
+}
+.hero-scroll__line::after {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 1px; height: 14px;
+  background: var(--gold-light);
+  box-shadow: 0 0 7px rgba(226, 201, 157, .85);
+  animation: scrollTrail 2.2s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes scrollFloat {
+  0%, 100% { opacity: .6; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-8px); }
+}
+@keyframes scrollTrail {
+  0% { transform: translateY(-14px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(38px); opacity: 0; }
+}
 @keyframes fadeUp { from { opacity:0; transform: translateY(28px);} to { opacity:1; transform: translateY(0);} }
 
 /* ---------- SECTIONS (lembar undangan) ---------- */
-.countdown, .greeting, .gallery, .schedule, .venue, .rsvp, .guests, .live {
+.countdown, .greeting, .gallery, .schedule, .venue, .rsvp, .guests, .live, .gift {
   max-width: 900px;
   margin: 30px auto;
   padding: 56px 46px;
@@ -452,12 +512,12 @@ body.is-open .invite {
 .gallery-grid .gallery-item:nth-child(4):last-child img { height: 320px; }
 
 /* ---------- HIASAN POJOK LEMBAR (watercolor floral) ---------- */
-.countdown, .greeting, .gallery, .schedule, .venue, .rsvp, .guests, .live { position: relative; }
-.countdown > *, .greeting > *, .gallery > *, .schedule > *, .venue > *, .rsvp > *, .guests > *, .live > * {
+.countdown, .greeting, .gallery, .schedule, .venue, .rsvp, .guests, .live, .gift { position: relative; }
+.countdown > *, .greeting > *, .gallery > *, .schedule > *, .venue > *, .rsvp > *, .guests > *, .live > *, .gift > * {
   position: relative; z-index: 1;
 }
 /* pojok kiri atas: di depan content, ditiup angin pelan-pelan */
-.countdown::before, .greeting::before, .gallery::before, .schedule::before, .venue::before, .rsvp::before, .guests::before, .live::before {
+.countdown::before, .greeting::before, .gallery::before, .schedule::before, .venue::before, .rsvp::before, .guests::before, .live::before, .gift::before {
   content: '';
   position: absolute;
   top: -10px; left: -10px;
@@ -470,7 +530,7 @@ body.is-open .invite {
   animation: decoSway 7.5s ease-in-out infinite;
 }
 /* pojok kanan bawah: arah angin berlawanan */
-.countdown::after, .greeting::after, .gallery::after, .schedule::after, .venue::after, .rsvp::after, .guests::after, .live::after {
+.countdown::after, .greeting::after, .gallery::after, .schedule::after, .venue::after, .rsvp::after, .guests::after, .live::after, .gift::after {
   content: '';
   position: absolute;
   bottom: -10px; right: -10px;
@@ -624,24 +684,37 @@ body.is-open .invite {
 
 /* ---------- LIVE STREAMING ---------- */
 .live { text-align: center; }
+/* "Hadir dari Mana Saja" (id=liveTitle) adalah JUDUL section ini, jadi
+   font + ukurannya harus sama dengan .section-label section lain
+   ("Counting Down to Forever", "Wedding Reception", dst). */
+.live-title {
+  font-family: var(--serif); font-size: clamp(26px, 6vw, 40px);
+  font-weight: 300; letter-spacing: .02em; line-height: 1.15;
+  color: var(--ink); margin-bottom: 8px;
+}
 .live-sub {
   font-family: var(--serif); font-style: italic;
-  font-size: clamp(15px, 2.4vw, 18px);
-  color: var(--ink-soft); margin: -4px 0 18px;
-}
-.live-title {
-  font-family: var(--serif); font-size: clamp(30px, 7vw, 46px); font-weight: 300;
-  color: var(--ink); line-height: 1.15; margin-bottom: 8px;
+  /* sama dengan .section-sub supaya tidak terlihat lebih besar dari
+     subtitle section lain */
+  font-size: clamp(14px, 2.4vw, 17px);
+  color: var(--ink-soft); margin: 0 auto 18px;
 }
 .live-divider {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  color: var(--gold); font-size: 9px; margin-bottom: 30px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  color: var(--gold); margin-bottom: 30px;
 }
 .live-divider::before, .live-divider::after {
-  content: ''; height: 1px; width: 70px;
-  background: linear-gradient(90deg, transparent, var(--gold-light));
+  content: ''; height: 1px; width: 62px;
+  background: currentColor; opacity: .75;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 88%);
+  mask-image: linear-gradient(90deg, transparent, #000 88%);
 }
-.live-divider::after { background: linear-gradient(90deg, var(--gold-light), transparent); }
+.live-divider::after {
+  -webkit-mask-image: linear-gradient(90deg, #000 12%, transparent);
+  mask-image: linear-gradient(90deg, #000 12%, transparent);
+}
+.live-divider span { display: block; width: 26px; height: 13px; flex: none; }
+.live-divider .orn { display: block; width: 100%; height: 100%; }
 .live-card {
   max-width: 760px; margin: 0 auto;
   display: grid; grid-template-columns: 1fr 1.15fr;
@@ -770,14 +843,24 @@ body.is-open .invite {
 .live-cta.live-yt svg { color: #d93a3a; }
 .live-cta.live-ig svg { color: #b06a9c; }
 .live-cta:hover { background: rgba(253, 248, 239, .14); transform: translateY(-2px); }
-.live-calendar {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-top: 26px; padding: 13px 26px; border-radius: 999px;
-  border: 1px solid var(--gold); color: var(--gold-deep);
-  font-family: var(--serif); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+/* ---------- TOMBOL AKSI (satu ukuran standar, desktop & mobile) ----------
+   "Simpan ke Kalender" & "Kirim WhatsApp" memakai proporsi yang sama:
+   tinggi 48px, padding 0 28px, radius pill, font 11px + letterspacing .18em */
+.live-calendar,
+.guest-send {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 0 28px;
+  border-radius: 999px;
+  font-family: var(--serif); font-size: 11px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase; white-space: nowrap;
   transition: all .3s ease;
 }
-.live-calendar svg { width: 16px; height: 16px; }
+.live-calendar svg, .guest-send svg { width: 16px; height: 16px; flex: none; }
+.live-calendar {
+  margin-top: 26px;
+  border: 1px solid var(--gold); color: var(--gold-deep);
+  background: transparent;
+}
 .live-calendar:hover { background: rgba(138, 106, 53, .1); transform: translateY(-2px); }
 .live-note {
   margin-top: 14px; font-size: 12px; font-style: italic; color: var(--ink-soft);
@@ -787,9 +870,169 @@ body.is-open .invite {
   .live-play { width: 46px; height: 46px; }
   /* tetap satu baris seperti di desktop, hanya ukurannya dikecilkan */
   .live-actions { justify-content: flex-start; flex-wrap: nowrap; gap: 8px; }
-  .live-cta { padding: 8px 12px; font-size: 10.5px; letter-spacing: .06em; white-space: nowrap; }
+  .live-cta { padding: 0 12px; font-size: 10.5px; letter-spacing: .06em; white-space: nowrap; }
   .live-cta svg { width: 14px; height: 14px; }
   .live-cta { gap: 6px; }
+}
+
+/* ---------- KADO & UCAPAN (BAGI KEBAGIAAN) ---------- */
+/* judul section: sama persis dengan section lain (mis. "Hadir dari Mana Saja") */
+.gift-title { line-height: 1.15; }
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 660px;
+  margin: 34px auto 0;
+}
+.gift-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  overflow: hidden;
+  padding: 26px 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(165deg, #fffdf8, var(--cream));
+  box-shadow: 0 14px 34px rgba(36, 53, 46, .08);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1),
+              box-shadow .45s cubic-bezier(.22, 1, .36, 1),
+              border-color .45s ease;
+}
+/* garis tepi kartu seragam di semua sisi (tidak ada aksen khusus di atas) */
+.gift-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(138, 106, 53, .45);
+  box-shadow: 0 22px 46px rgba(36, 53, 46, .13);
+}
+.gift-card__kind {
+  font-size: 9px; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 6px;
+}
+.gift-card__title {
+  font-family: var(--serif); font-size: 23px; font-weight: 400;
+  letter-spacing: .04em; color: var(--ink);
+}
+.gift-card__visual {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; margin: 18px 0 20px;
+}
+.gift-card__visual img {
+  width: 100%; max-width: 232px; height: auto;
+  border-radius: 10px;
+  box-shadow: 0 12px 26px rgba(36, 53, 46, .18);
+}
+.gift-card__label {
+  font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 9px;
+}
+.gift-card__body { width: 100%; }
+.gift-account-row {
+  display: flex; align-items: stretch; justify-content: center;
+  gap: 10px; width: 100%;
+}
+.gift-account {
+  min-width: 0; flex: 1; max-width: 240px;
+  padding: 11px 12px;
+  border: 1px solid var(--line); border-radius: 8px;
+  color: var(--ink);
+  background: rgba(226, 201, 157, .2);
+  cursor: copy;
+  font-family: ui-monospace, 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', monospace;
+  font-size: 14px; font-weight: 700; letter-spacing: .12em;
+  text-align: center;
+  white-space: nowrap;
+  user-select: all;
+  transition: border-color .3s ease, background .3s ease;
+}
+.gift-account:hover,
+.gift-account:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(226, 201, 157, .34);
+}
+.gift-copy-btn {
+  display: inline-flex; flex: 0 0 auto;
+  align-items: center; justify-content: center; gap: 6px;
+  /* tinggi ikut kotak nomor (align-items: stretch) */
+  width: auto; min-width: 40px; height: auto; min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line); border-radius: 8px;
+  color: var(--gold);
+  background: var(--paper);
+  cursor: pointer;
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1),
+              border-color .3s ease, background .3s ease, color .3s ease;
+}
+.gift-copy-text {
+  font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+  line-height: 1;
+}
+.gift-copy-btn:hover {
+  border-color: var(--gold);
+  background: rgba(226, 201, 157, .26);
+  transform: scale(1.07);
+}
+.gift-copy-btn.copied {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+.gift-copy-btn svg { width: 16px; height: 16px; fill: currentColor; }
+.gift-copy-btn .icon-check { display: none; }
+.gift-copy-btn.copied .icon-copy { display: none; }
+.gift-copy-btn.copied .icon-check { display: block; }
+.gift-card__holder {
+  margin-top: 14px;
+  font-family: var(--serif); font-style: italic; font-size: 14px;
+  color: var(--ink-soft);
+}
+/* toast konfirmasi "tersalin" */.gift-toast {
+  position: fixed; z-index: 210;
+  left: 50%; bottom: calc(92px + env(safe-area-inset-bottom));
+  transform: translate(-50%, 12px);
+  max-width: min(88vw, 420px);
+  padding: 13px 20px;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 18px 40px rgba(36, 53, 46, .22);
+  font-size: 12px; letter-spacing: .05em; text-align: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .35s ease, transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+.gift-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 700px) {
+  /* tampilan tetap 2 kolom seperti desktop; elemennya diperkecil agar muat */
+  .gift-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 100%;
+  }
+  .gift-card { padding: 16px 10px 18px; }
+  .gift-card__kind { font-size: 7.5px; letter-spacing: .16em; }
+  .gift-card__title { font-size: 18px; }
+  .gift-card__visual { margin: 12px 0 14px; }
+  .gift-card__visual img { max-width: 100%; border-radius: 8px; }
+  .gift-card__label { font-size: 7.5px; letter-spacing: .16em; margin-bottom: 6px; }
+  /* tombol salin turun ke bawah nomor (biar label "Copy" muat & jelas) */
+  .gift-account-row { flex-direction: column; align-items: center; gap: 8px; }
+  .gift-account {
+    flex: 0 0 auto; width: 100%; max-width: 100%;
+    font-size: 11px; letter-spacing: .03em;
+    padding: 9px 6px;
+    word-break: break-all;
+  }
+  .gift-copy-btn {
+    width: auto; min-width: 0; height: 34px; min-height: 34px;
+    padding: 0 16px; gap: 6px;
+  }
+  .gift-copy-text { font-size: 10px; letter-spacing: .14em; }
+  .gift-copy-btn svg { width: 14px; height: 14px; }
+  .gift-card__holder { margin-top: 10px; font-size: 12px; }
+  /* ruang extra di bawah supaya ornamen pojok tidak menutupi tombol salin */
+  .gift { padding-bottom: 60px; }
 }
 
 /* ---------- VENUE (gabung dengan countdown) ---------- */
@@ -976,12 +1219,9 @@ body.is-open .invite {
 }
 .guest-counter.is-warn { color: #b4553a; }
 .guest-send {
-  display: inline-flex; align-items: center; justify-content: center;
-  margin-top: 8px; padding: 14px 30px; border-radius: 999px;
+  margin-top: 8px;
   background: var(--gold-deep); color: #fffdf8;
-  font-family: var(--serif); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
   box-shadow: 0 12px 26px rgba(120, 92, 40, .28);
-  transition: all .3s ease;
 }
 .guest-send:hover { background: var(--gold); transform: translateY(-2px); }
 .guest-send.is-sent { background: #2f6b4f; box-shadow: 0 12px 26px rgba(47, 107, 79, .3); }
@@ -990,8 +1230,13 @@ body.is-open .invite {
   /* mobile: tata letak & ukuran sama dengan desktop */
   .guest-card { padding: 34px 16px 30px; }
   .seal { width: 96px; height: 96px; margin-bottom: 18px; }
-  .guest-opt { padding: 9px 12px; font-size: 11px; letter-spacing: .08em; }
+  .guest-opt { padding: 0 12px; font-size: 11px; letter-spacing: .08em; }
   .guest-choice { gap: 8px; max-width: 100%; }
+  /* tombol aksi tetap sama proporsinya, hanya sedikit lebih ringkas */
+  .live-calendar, .guest-send {
+    min-height: var(--btn-h); padding: 0 20px;
+    font-size: 10.5px; letter-spacing: .14em;
+  }
 }
 
 /* ---------- LIGHTBOX ---------- */
@@ -1020,33 +1265,44 @@ body.is-open .invite {
 
 /* ---------- COVER ---------- */
 .cover {
-  position: fixed; top: 0; left: 0; bottom: auto;
+  /* inset:0 => cover menempel tepat di 4 sisi viewport, lebarnya =
+     lebar viewport PENUH (scrollbar browser dimatikan => tidak ada
+     ruang yang dipesan) => 100% full, tidak ada space/sisa di tepi. */
+  position: fixed; inset: 0;
   z-index: 100;
   /* svh: tinggi area yang terlihat, bukan area di balik URL bar browser,
      supaya isi cover tepat di tengah layar hp.
-     100vw: ikut menutup area scrollbar, isi tetap di tengah layar. */
-  width: 100vw; height: 100vh; height: 100svh;
+     dvh (paling akhir): ikut menyusut/ikut tinggi layar nyata, jadi
+     cover tetap menutup FULL walau URL bar browser berubah tinggi.
+     min-height:100% => minimal setinggi layout viewport, tidak pernah
+     ada celah di bawah. */
+  width: auto; height: 100vh; height: 100svh; height: 100dvh;
+  min-height: 100%;
   display: flex; align-items: center; justify-content: center;
   overflow-x: hidden; overflow-y: auto;
+  /* scrollbar cover disembunyikan (isi tetap bisa di-scroll di layar
+     pendek) => tidak pernah muncul 2 scrollbar di pojok kanan */
+  scrollbar-width: none; -ms-overflow-style: none;
   padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   color: #fff; background: radial-gradient(circle at 50% 40%, #4f6f62, #2c4439);
-  transition: transform .95s cubic-bezier(.77,0,.175,1), opacity .7s ease, visibility 0s linear .95s;
+  /* transisi: pudar saja (tidak ada transform/geser) */
+  transition: opacity .75s ease, visibility 0s linear .75s;
 }
+.cover::-webkit-scrollbar { width: 0; height: 0; }
 .cover.is-closed {
   visibility: hidden; opacity: 0; pointer-events: none;
-  transform: translateY(-100%);
 }
 /* [hidden] harus mengalahkan display:flex di atas */
 .cover[hidden] { display: none; }
 .cover-media {
-  position: absolute; top: 0; left: 0;
-  width: 100vw; height: 100vh; height: 100lvh; /* tetap menutup area di balik URL bar */
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; /* pas persis dengan kotak cover -> tidak ada tepi kosong */
   display: block;
   background-size: cover; background-position: center;
 }
 .cover-shade {
-  position: absolute; top: 0; left: 0;
-  width: 100vw; height: 100vh; height: 100lvh;
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
   background: linear-gradient(180deg, rgba(20,34,29,.48), rgba(20,34,29,.86));
 }
 .cover-content {
@@ -1105,17 +1361,6 @@ body.is-open .invite {
 .cover-hint {
   margin: 14px 0 0; color: rgba(255,255,255,.75); font-size: 10px; letter-spacing: .08em;
 }
-.cover-divider {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  margin: 0 auto 14px; color: var(--gold-light); font-size: 14px;
-  text-shadow: 0 0 8px rgba(226,201,157,.6);
-}
-.cover-divider::before, .cover-divider::after {
-  content: ''; height: 1px; width: 60px;
-  background: linear-gradient(90deg, transparent, var(--gold-light));
-  box-shadow: 0 0 6px rgba(226,201,157,.5);
-}
-.cover-divider::after { background: linear-gradient(90deg, var(--gold-light), transparent); }
 .cover-sub {
   font-family: var(--serif); font-size: clamp(14px, 3vw, 18px);
   font-style: italic; color: rgba(255,255,255,.85);
@@ -1137,6 +1382,23 @@ body.is-open .invite {
 .mt-icon { font-size: 14px; }
 .music-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
 
+/* ---------- TINGGI TOMBOL SERAGAM ----------
+   Semua tombol di halaman (Buka Undangan, YouTube/Instagram Live,
+   Simpan ke Kalender, Hadir/Tidak Hadir, Kirim WhatsApp) memakai tinggi
+   yang sama: var(--btn-h). Letak rule ini di paling bawah supaya
+   override aturan tombol yang ada di atas. */
+.open-button,
+.btn-reveal,
+.live-cta,
+.live-calendar,
+.guest-opt,
+.guest-send {
+  height: var(--btn-h);
+  min-height: var(--btn-h);
+  padding-top: 0; padding-bottom: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
 /* ---------- RESPONSIVE ---------- */
 
 @media (min-width: 768px) {
@@ -1147,9 +1409,11 @@ body.is-open .invite {
 /* ---------- MOBILE POLISH ---------- */
 @media (max-width: 480px) {
   .hero-title { font-size: clamp(16px, 4.5vw, 36px); }
-  .countdown, .greeting, .gallery, .schedule, .venue, .rsvp, .guests, .live {
+  .countdown, .greeting, .gallery, .schedule, .venue, .rsvp, .guests, .live, .gift {
     max-width: 100%; margin: 14px 10px; padding: 44px 20px; border-radius: 8px;
   }
+  /* section kado butuh ruang lebih lega supaya 2 kartu tetap sejajar */
+  .gift { margin: 14px 6px; padding: 40px 12px; }
   .section-label { font-size: clamp(22px, 7vw, 32px); }
   .cd-grid { max-width: 300px; }
   .cd-num { font-size: 30px; }
@@ -1164,8 +1428,8 @@ body.is-open .invite {
   .cover-monogram { font-size: 44px; }
   .cover-topline { font-size: 28px; }
   .cover-content h1 { font-size: clamp(36px, 12vw, 52px); }
-  .open-button { min-height: 44px; padding: 0 22px; }
-  .open-button-spacer { height: 44px; }
+  .open-button { min-height: var(--btn-h); padding: 0 22px; }
+  .open-button-spacer { height: var(--btn-h); }
   .music-toggle { bottom: calc(12px + env(safe-area-inset-bottom)); right: 12px; width: 44px; height: 44px; padding: 0; }
 }
 
@@ -1173,6 +1437,7 @@ body.is-open .invite {
    Isi cover dirapatkan supaya tombol "Buka Undangan" tetap terlihat
    dan tidak terpotong di bawah layar. */
 @media (max-height: 560px) {
+  :root { --btn-h: 40px; }
   .cover-content, .hero-content { padding: 14px 20px; }
   .cover-monogram { font-size: 40px; margin-bottom: 6px; }
   .cover-topline { font-size: 22px; margin-bottom: 4px; }
@@ -1180,13 +1445,14 @@ body.is-open .invite {
   .hero-divider { margin-bottom: 10px; gap: 10px; }
   .hero-divider::before, .hero-divider::after { width: 60px; }
   .cover-sub { font-size: 14px; margin-bottom: 8px; }
-  .open-button { min-height: 40px; margin-top: 14px; }
-  .open-button-spacer { height: 40px; margin-top: 14px; }
+  .open-button { min-height: var(--btn-h); margin-top: 14px; }
+  .open-button-spacer { height: var(--btn-h); margin-top: 14px; }
   .cover-hint { margin-top: 10px; }
 }
 
 /* layar sangat pendek: rapatkan lagi supaya tombol tetap terlihat */
 @media (max-height: 430px) {
+  :root { --btn-h: 36px; }
   .cover-content, .hero-content { padding: 10px 18px; }
   .cover-monogram { font-size: 32px; margin-bottom: 4px; }
   .cover-topline { font-size: 19px; margin-bottom: 2px; }
@@ -1194,8 +1460,8 @@ body.is-open .invite {
   .hero-divider { margin-bottom: 6px; gap: 8px; }
   .hero-divider::before, .hero-divider::after { width: 44px; }
   .cover-sub { font-size: 13px; margin-bottom: 4px; }
-  .open-button { min-height: 36px; margin-top: 8px; }
-  .open-button-spacer { height: 36px; margin-top: 8px; }
+  .open-button { min-height: var(--btn-h); margin-top: 8px; }
+  .open-button-spacer { height: var(--btn-h); margin-top: 8px; }
   .cover-hint { display: none; }
 }
 @media (max-width: 360px) {
@@ -1203,6 +1469,9 @@ body.is-open .invite {
   .cd-item:nth-child(2n) { border-right: 1px solid var(--line); }
   .cd-item:last-child { border-right: 0; }
   .cd-item:nth-child(n+3) { border-top: 0; }
+  /* layar sangat sempit: nomor tetap 1 baris, tombol salin di bawahnya */
+  .gift-account { font-size: 10px; letter-spacing: .02em; }
+  .gift-copy-btn { height: 30px; min-height: 30px; padding: 0 14px; }
 }
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity 1.4s cubic-bezier(.22,1,.36,1), transform 1.4s cubic-bezier(.22,1,.36,1); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
@@ -1258,13 +1527,13 @@ html.js .tl-item.is-visible { opacity: 1; transform: none; }
 
 @media (max-width: 599px) {
   /* hiasan pojok di layar kecil: dikecilkan & lebih transparan supaya tidak menabrak teks */
-  .countdown::before, .greeting::before, .gallery::before, .schedule::before, .venue::before, .rsvp::before, .guests::before, .live::before {
+  .countdown::before, .greeting::before, .gallery::before, .schedule::before, .venue::before, .rsvp::before, .guests::before, .live::before, .gift::before {
     display: block;
     top: -8px; left: -8px;
     width: 112px; height: 100px;
     opacity: .45;
   }
-  .countdown::after, .greeting::after, .gallery::after, .schedule::after, .venue::after, .rsvp::after, .guests::after, .live::after {
+  .countdown::after, .greeting::after, .gallery::after, .schedule::after, .venue::after, .rsvp::after, .guests::after, .live::after, .gift::after {
     display: block;
     bottom: -8px; right: -8px;
     width: 104px; height: 96px;
