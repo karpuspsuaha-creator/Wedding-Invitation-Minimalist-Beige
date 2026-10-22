@@ -1269,15 +1269,8 @@ body.is-open .invite {
      lebar viewport PENUH (scrollbar browser dimatikan => tidak ada
      ruang yang dipesan) => 100% full, tidak ada space/sisa di tepi. */
   position: fixed; inset: 0;
+  width: 100%; height: 100%;
   z-index: 100;
-  /* svh: tinggi area yang terlihat, bukan area di balik URL bar browser,
-     supaya isi cover tepat di tengah layar hp.
-     dvh (paling akhir): ikut menyusut/ikut tinggi layar nyata, jadi
-     cover tetap menutup FULL walau URL bar browser berubah tinggi.
-     min-height:100% => minimal setinggi layout viewport, tidak pernah
-     ada celah di bawah. */
-  width: auto; height: 100vh; height: 100svh; height: 100dvh;
-  min-height: 100%;
   display: flex; align-items: center; justify-content: center;
   overflow-x: hidden; overflow-y: auto;
   /* scrollbar cover disembunyikan (isi tetap bisa di-scroll di layar
